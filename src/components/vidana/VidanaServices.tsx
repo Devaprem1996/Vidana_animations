@@ -124,18 +124,18 @@ export const VidanaServices = () => {
             {/* Enhanced Circular Reveal with Glowing Dots */}
             <div
                 ref={circleRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] md:w-[800px] md:h-[800px] pointer-events-none"
             >
                 {/* Purple Circle - Outer */}
                 <motion.div
-                    className="absolute inset-0 rounded-full bg-purple-500/20"
-                    style={{ boxShadow: '0 0 80px rgba(168,85,247,0.6), inset 0 0 40px rgba(168,85,247,0.3)' }}
+                    className="absolute inset-0 rounded-full bg-white/5"
+                    style={{ boxShadow: '0 0 80px rgba(255,255,255,0.1), inset 0 0 40px rgba(255,255,255,0.05)' }}
                     animate={{
                         scale: [1, 1.05, 1],
                         boxShadow: [
-                            '0 0 80px rgba(168,85,247,0.6), inset 0 0 40px rgba(168,85,247,0.3)',
-                            '0 0 140px rgba(168,85,247,0.9), inset 0 0 60px rgba(168,85,247,0.5)',
-                            '0 0 80px rgba(168,85,247,0.6), inset 0 0 40px rgba(168,85,247,0.3)'
+                            '0 0 80px rgba(255,255,255,0.1), inset 0 0 40px rgba(255,255,255,0.05)',
+                            '0 0 140px rgba(255,255,255,0.2), inset 0 0 60px rgba(255,255,255,0.1)',
+                            '0 0 80px rgba(255,255,255,0.1), inset 0 0 40px rgba(255,255,255,0.05)'
                         ]
                     }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -143,14 +143,14 @@ export const VidanaServices = () => {
 
                 {/* Green Circle */}
                 <motion.div
-                    className="absolute inset-[12%] rounded-full bg-green-700/30"
-                    style={{ boxShadow: '0 0 60px rgba(34,197,94,0.7), inset 0 0 30px rgba(34,197,94,0.4)' }}
+                    className="absolute inset-[12%] rounded-full bg-white/10"
+                    style={{ boxShadow: '0 0 60px rgba(255,255,255,0.15), inset 0 0 30px rgba(255,255,255,0.1)' }}
                     animate={{
                         scale: [1, 1.08, 1],
                         boxShadow: [
-                            '0 0 60px rgba(34,197,94,0.7), inset 0 0 30px rgba(34,197,94,0.4)',
-                            '0 0 120px rgba(34,197,94,1), inset 0 0 50px rgba(34,197,94,0.6)',
-                            '0 0 60px rgba(34,197,94,0.7), inset 0 0 30px rgba(34,197,94,0.4)'
+                            '0 0 60px rgba(255,255,255,0.15), inset 0 0 30px rgba(255,255,255,0.1)',
+                            '0 0 120px rgba(255,255,255,0.25), inset 0 0 50px rgba(255,255,255,0.15)',
+                            '0 0 60px rgba(255,255,255,0.15), inset 0 0 30px rgba(255,255,255,0.1)'
                         ]
                     }}
                     transition={{ duration: 1.3, repeat: Infinity, delay: 0.2 }}
@@ -158,14 +158,14 @@ export const VidanaServices = () => {
 
                 {/* Blue Circle */}
                 <motion.div
-                    className="absolute inset-[28%] rounded-full bg-blue-500/40"
-                    style={{ boxShadow: '0 0 50px rgba(59,130,246,0.8), inset 0 0 25px rgba(59,130,246,0.5)' }}
+                    className="absolute inset-[28%] rounded-full bg-white/15"
+                    style={{ boxShadow: '0 0 50px rgba(255,255,255,0.2), inset 0 0 25px rgba(255,255,255,0.15)' }}
                     animate={{
                         scale: [1, 1.1, 1],
                         boxShadow: [
-                            '0 0 50px rgba(59,130,246,0.8), inset 0 0 25px rgba(59,130,246,0.5)',
-                            '0 0 100px rgba(59,130,246,1), inset 0 0 45px rgba(59,130,246,0.7)',
-                            '0 0 50px rgba(59,130,246,0.8), inset 0 0 25px rgba(59,130,246,0.5)'
+                            '0 0 50px rgba(255,255,255,0.2), inset 0 0 25px rgba(255,255,255,0.15)',
+                            '0 0 100px rgba(255,255,255,0.3), inset 0 0 45px rgba(255,255,255,0.2)',
+                            '0 0 50px rgba(255,255,255,0.2), inset 0 0 25px rgba(255,255,255,0.15)'
                         ]
                     }}
                     transition={{ duration: 1.1, repeat: Infinity, delay: 0.4 }}
@@ -173,14 +173,14 @@ export const VidanaServices = () => {
 
                 {/* Yellow Circle */}
                 <motion.div
-                    className="absolute inset-[42%] rounded-full bg-yellow-400/50"
-                    style={{ boxShadow: '0 0 40px rgba(250,204,21,0.9), inset 0 0 20px rgba(250,204,21,0.6)' }}
+                    className="absolute inset-[42%] rounded-full bg-white/20"
+                    style={{ boxShadow: '0 0 40px rgba(255,255,255,0.25), inset 0 0 20px rgba(255,255,255,0.2)' }}
                     animate={{
                         scale: [1, 1.12, 1],
                         boxShadow: [
-                            '0 0 40px rgba(250,204,21,0.9), inset 0 0 20px rgba(250,204,21,0.6)',
-                            '0 0 90px rgba(250,204,21,1), inset 0 0 40px rgba(250,204,21,0.8)',
-                            '0 0 40px rgba(250,204,21,0.9), inset 0 0 20px rgba(250,204,21,0.6)'
+                            '0 0 40px rgba(255,255,255,0.25), inset 0 0 20px rgba(255,255,255,0.2)',
+                            '0 0 90px rgba(255,255,255,0.35), inset 0 0 40px rgba(255,255,255,0.3)',
+                            '0 0 40px rgba(255,255,255,0.25), inset 0 0 20px rgba(255,255,255,0.2)'
                         ]
                     }}
                     transition={{ duration: 0.9, repeat: Infinity, delay: 0.6 }}
@@ -193,11 +193,11 @@ export const VidanaServices = () => {
                 {[...Array(8)].map((_, i) => (
                     <motion.div
                         key={`purple-${i}`}
-                        className="absolute w-3 h-3 bg-purple-400 rounded-full"
+                        className="absolute w-3 h-3 bg-white rounded-full"
                         style={{
                             top: 'calc(50% - 6px)',
                             left: 'calc(50% - 6px)',
-                            boxShadow: '0 0 12px rgba(168,85,247,1)',
+                            boxShadow: '0 0 12px rgba(255,255,255,0.8)',
                             transformOrigin: '6px 6px'
                         }}
                         animate={{ rotate: 360 }}
@@ -211,11 +211,11 @@ export const VidanaServices = () => {
                 {[...Array(6)].map((_, i) => (
                     <motion.div
                         key={`blue-${i}`}
-                        className="absolute w-2.5 h-2.5 bg-blue-400 rounded-full"
+                        className="absolute w-2.5 h-2.5 bg-white rounded-full"
                         style={{
                             top: 'calc(50% - 5px)',
                             left: 'calc(50% - 5px)',
-                            boxShadow: '0 0 10px rgba(59,130,246,1)',
+                            boxShadow: '0 0 10px rgba(255,255,255,0.8)',
                             transformOrigin: '5px 5px'
                         }}
                         animate={{ rotate: -360 }}
@@ -229,11 +229,11 @@ export const VidanaServices = () => {
                 {[...Array(4)].map((_, i) => (
                     <motion.div
                         key={`yellow-${i}`}
-                        className="absolute w-2 h-2 bg-yellow-300 rounded-full"
+                        className="absolute w-2 h-2 bg-white rounded-full"
                         style={{
                             top: 'calc(50% - 4px)',
                             left: 'calc(50% - 4px)',
-                            boxShadow: '0 0 8px rgba(250,204,21,1)',
+                            boxShadow: '0 0 8px rgba(255,255,255,0.8)',
                             transformOrigin: '4px 4px'
                         }}
                         animate={{ rotate: 360 }}

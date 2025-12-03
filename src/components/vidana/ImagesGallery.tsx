@@ -246,7 +246,7 @@ export const ImagesGallery = () => {
                         <div
                             key={index}
                             ref={el => imagesRef.current[index] = el}
-                            className={`absolute ${getImagePositionClass(image.position)} w-48 h-32 opacity-0`}
+                            className={`absolute ${getImagePositionClass(image.position)} w-28 h-20 md:w-48 md:h-32 opacity-0`}
                         >
                             <div className="relative w-full h-full group">
                                 <img

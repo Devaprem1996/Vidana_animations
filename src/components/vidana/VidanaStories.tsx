@@ -108,7 +108,7 @@ export const VidanaStories = () => {
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <ColorBends
                     className="absolute inset-0"
-                    colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+                    colors={["#ffffff", "#ffffff", "#ffffff"]}
                     rotation={30}
                     speed={0.3}
                     scale={1.2}
@@ -119,22 +119,7 @@ export const VidanaStories = () => {
                     noise={0.08}
                     transparent
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px] opacity-20" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
 
-                {/* Floating Particles */}
-                {[...Array(20)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute w-1 h-1 bg-white/30 rounded-full animate-float"
-                        style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            animationDuration: `${Math.random() * 10 + 10}s`,
-                            animationDelay: `${Math.random() * 5}s`
-                        }}
-                    />
-                ))}
             </div>
 
             {/* Wrapper that gets pinned */}
@@ -150,7 +135,7 @@ export const VidanaStories = () => {
                         <div className="relative">
                             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs font-bold uppercase tracking-widest mb-8 text-accent">
                                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                                Case Studies
+                                Records
                             </span>
 
                             <h2 className="text-[clamp(3rem,6vw,7rem)] font-display font-black leading-[0.9] mb-8 mix-blend-difference">

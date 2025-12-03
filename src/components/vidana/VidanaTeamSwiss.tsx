@@ -53,7 +53,6 @@ const TEAM = [
 
 export const VidanaTeamSwiss = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [direction, setDirection] = useState(1);
     const containerRef = useRef<HTMLDivElement>(null);
     const cursorRef = useRef<HTMLDivElement>(null);
 
@@ -88,16 +87,6 @@ export const VidanaTeamSwiss = () => {
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
-
-    const handleNext = () => {
-        setDirection(1);
-        setActiveIndex((prev) => (prev + 1) % TEAM.length);
-    };
-
-    const handlePrev = () => {
-        setDirection(-1);
-        setActiveIndex((prev) => (prev - 1 + TEAM.length) % TEAM.length);
-    };
 
     const activeMember = TEAM[activeIndex];
 
@@ -147,31 +136,37 @@ export const VidanaTeamSwiss = () => {
                             OUR TEAM
                         </h2>
                     </div>
-
-                    <div className="hidden md:flex gap-4">
-                        <button onClick={handlePrev} className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 group">
-                            <ArrowRight className="w-6 h-6 rotate-180 group-hover:-translate-x-1 transition-transform" />
-                        </button>
-                        <button onClick={handleNext} className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 group">
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </div>
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
-                    {/* Left: Image & Visuals */}
+                    {/* Mobile Navigation (Horizontal Scroll) */}
+                    <div className="lg:hidden w-full overflow-x-auto pb-4 mb-8 flex gap-4 scrollbar-hide snap-x">
+                        {TEAM.map((member, index) => (
+                            <button
+                                key={member.id}
+                                onClick={() => setActiveIndex(index)}
+                                className={`flex-shrink-0 px-6 py-3 rounded-full border transition-all duration-300 snap-center whitespace-nowrap ${activeIndex === index
+                                    ? "bg-accent text-black border-accent font-bold"
+                                    : "bg-white/5 text-white/60 border-white/10 hover:bg-white/10"
+                                    }`}
+                            >
+                                {member.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Left: Image & Visuals (5 Cols) */}
                     <div className="lg:col-span-5 relative group perspective-1000">
-                        <AnimatePresence mode="wait" custom={direction}>
+                        <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeIndex}
-                                custom={direction}
-                                initial={{ opacity: 0, rotateY: 90 * direction, x: 50 * direction }}
-                                animate={{ opacity: 1, rotateY: 0, x: 0 }}
-                                exit={{ opacity: 0, rotateY: -90 * direction, x: -50 * direction }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="relative aspect-[3/4] w-full max-w-md mx-auto"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0"
                             >
                                 {/* Glitch Effect Layers */}
                                 <div className="absolute inset-0 bg-accent/20 translate-x-2 translate-y-2 mix-blend-color-dodge opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -215,8 +210,8 @@ export const VidanaTeamSwiss = () => {
                         </AnimatePresence>
                     </div>
 
-                    {/* Right: Content & Details */}
-                    <div className="lg:col-span-7 pl-0 lg:pl-12">
+                    {/* Middle: Details (4 Cols) */}
+                    <div className="lg:col-span-4 flex flex-col justify-center h-full pt-8 lg:pt-0">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeIndex}
@@ -229,19 +224,17 @@ export const VidanaTeamSwiss = () => {
                                     <span className="px-3 py-1 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-bold uppercase tracking-widest">
                                         {activeMember.role}
                                     </span>
-                                    <span className="h-px w-12 bg-white/20" />
-                                    <span className="text-white/40 font-mono text-sm">0{activeIndex + 1} / 0{TEAM.length}</span>
                                 </div>
 
-                                <h3 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-8 leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">
+                                <h3 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">
                                     {activeMember.name}
                                 </h3>
 
-                                <p className="text-xl md:text-2xl text-gray-400 leading-relaxed max-w-2xl mb-12 border-l-2 border-accent/50 pl-6">
+                                <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-12 border-l-2 border-accent/50 pl-6">
                                     "{activeMember.description}"
                                 </p>
 
-                                {/* Skills / Tags (Mock data for visual richness) */}
+                                {/* Skills / Tags */}
                                 <div className="flex flex-wrap gap-3">
                                     {["Strategy", "Leadership", "Innovation"].map((tag, i) => (
                                         <span
@@ -254,16 +247,34 @@ export const VidanaTeamSwiss = () => {
                                 </div>
                             </motion.div>
                         </AnimatePresence>
+                    </div>
 
-                        {/* Mobile Navigation */}
-                        <div className="flex md:hidden gap-4 mt-12">
-                            <button onClick={handlePrev} className="flex-1 py-4 border border-white/20 rounded-lg flex items-center justify-center hover:bg-white/10 active:bg-white/20 transition-colors">
-                                <ArrowRight className="w-6 h-6 rotate-180" />
-                            </button>
-                            <button onClick={handleNext} className="flex-1 py-4 border border-white/20 rounded-lg flex items-center justify-center hover:bg-white/10 active:bg-white/20 transition-colors">
-                                <ArrowRight className="w-6 h-6" />
-                            </button>
+                    {/* Right: Navigation List (3 Cols) - Desktop Only */}
+                    <div className="hidden lg:flex lg:col-span-3 flex-col gap-2 border-l border-white/10 pl-0 lg:pl-8 pt-8 lg:pt-0">
+                        <div className="text-xs font-bold uppercase tracking-widest text-white/40 mb-6">
+                            Select Member
                         </div>
+                        {TEAM.map((member, index) => (
+                            <button
+                                key={member.id}
+                                onClick={() => setActiveIndex(index)}
+                                className={`group flex items-center justify-between w-full p-4 rounded-lg transition-all duration-300 text-left ${activeIndex === index
+                                    ? "bg-white/10 border-l-2 border-accent"
+                                    : "hover:bg-white/5 border-l-2 border-transparent"
+                                    }`}
+                            >
+                                <span className={`font-display font-bold text-lg transition-colors ${activeIndex === index ? "text-white" : "text-white/40 group-hover:text-white/70"
+                                    }`}>
+                                    {member.name}
+                                </span>
+                                {activeIndex === index && (
+                                    <motion.div
+                                        layoutId="activeIndicator"
+                                        className="w-2 h-2 rounded-full bg-accent"
+                                    />
+                                )}
+                            </button>
+                        ))}
                     </div>
 
                 </div>

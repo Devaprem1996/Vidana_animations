@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, ArrowRight, Sparkles } from 'lucide-react';
+import { Star, ArrowRight, Sparkles, Quote } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -15,9 +15,9 @@ const TESTIMONIALS = [
         statLabel: "growth year-over-year",
         quote: "Vidana has allowed us to expand our workforce into the critical locations we needed to drive business growth.",
         author: "Giuseppe Marrone",
-        role: "People Operations Lead at Worldsensing",
+        role: "People Operations Lead",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop",
-        color: "bg-gradient-to-br from-[#FDE68A] via-[#FEF3C7] to-[#FDE68A]"
+        color: "from-purple-900/90 to-black"
     },
     {
         id: 2,
@@ -27,9 +27,9 @@ const TESTIMONIALS = [
         statLabel: "faster deployment",
         quote: "The seamless integration and design system accelerated our product launch significantly.",
         author: "Sarah Chen",
-        role: "CTO at TechFlow",
+        role: "CTO",
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2787&auto=format&fit=crop",
-        color: "bg-gradient-to-br from-[#BFDBFE] via-[#DBEAFE] to-[#BFDBFE]"
+        color: "from-blue-900/90 to-black"
     },
     {
         id: 3,
@@ -39,9 +39,9 @@ const TESTIMONIALS = [
         statLabel: "increase in retention",
         quote: "Our user engagement metrics skyrocketed after implementing the new interface designs.",
         author: "Michael Ross",
-        role: "Product Director at Nexus",
+        role: "Product Director",
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2787&auto=format&fit=crop",
-        color: "bg-gradient-to-br from-[#BBF7D0] via-[#D1FAE5] to-[#BBF7D0]"
+        color: "from-emerald-900/90 to-black"
     },
     {
         id: 4,
@@ -51,9 +51,9 @@ const TESTIMONIALS = [
         statLabel: "new active users",
         quote: "The cinematic experience created a viral loop that we hadn't anticipated.",
         author: "Emily Watson",
-        role: "CMO at Aura",
+        role: "CMO",
         image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2790&auto=format&fit=crop",
-        color: "bg-gradient-to-br from-[#FBCFE8] via-[#FCE7F3] to-[#FBCFE8]"
+        color: "from-rose-900/90 to-black"
     },
     {
         id: 5,
@@ -63,9 +63,9 @@ const TESTIMONIALS = [
         statLabel: "uptime reliability",
         quote: "Robust architecture meets stunning visuals. A rare combination in today's market.",
         author: "David Kim",
-        role: "VP of Engineering at Stratum",
+        role: "VP of Engineering",
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop",
-        color: "bg-gradient-to-br from-[#E9D5FF] via-[#F3E8FF] to-[#E9D5FF]"
+        color: "from-amber-900/90 to-black"
     }
 ];
 
@@ -97,7 +97,6 @@ export const VidanaTestimonials = () => {
     const sectionRef = useRef<HTMLElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const accordionRef = useRef<HTMLDivElement>(null);
-    const particlesRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // Cinematic title reveal
@@ -124,318 +123,180 @@ export const VidanaTestimonials = () => {
             );
         }
 
-        // Parallax background effect
-        if (sectionRef.current) {
-            const bg = sectionRef.current.querySelector('.bg-gradient');
-            if (bg) {
-                gsap.to(bg, {
-                    y: -150,
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: 'top bottom',
-                        end: 'bottom top',
-                        scrub: 1.5,
-                    },
-                    ease: 'none',
-                });
-            }
-        }
-
-        // Accordion entrance animation
-        if (accordionRef.current) {
-            gsap.fromTo(
-                accordionRef.current,
-                {
-                    y: 80,
-                    opacity: 0,
-                },
-                {
-                    y: 0,
-                    opacity: 1,
-                    scrollTrigger: {
-                        trigger: accordionRef.current,
-                        start: 'top bottom-=50',
-                        end: 'top center+=100',
-                        scrub: 1,
-                    },
-                    ease: 'power2.out',
-                }
-            );
-        }
-
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
     }, []);
 
     return (
-        <section ref={sectionRef} className="py-32 px-6 bg-background overflow-hidden relative">
-            {/* Cinematic Background Gradient */}
-            <div className="bg-gradient absolute inset-0 bg-gradient-to-br from-accent/5 via-primary/10 to-background opacity-50" />
+        <section ref={sectionRef} className="py-24 md:py-32 px-0 md:px-6 bg-black text-white overflow-hidden relative">
 
-            {/* Animated Particles */}
-            <div ref={particlesRef} className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(20)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-1 h-1 bg-accent/30 rounded-full"
-                        initial={{
-                            x: Math.random() * 100 + '%',
-                            y: Math.random() * 100 + '%',
-                        }}
-                        animate={{
-                            y: [
-                                Math.random() * 100 + '%',
-                                Math.random() * 100 + '%',
-                                Math.random() * 100 + '%',
-                            ],
-                            x: [
-                                Math.random() * 100 + '%',
-                                Math.random() * 100 + '%',
-                                Math.random() * 100 + '%',
-                            ],
-                            opacity: [0, 0.6, 0],
-                        }}
-                        transition={{
-                            duration: Math.random() * 10 + 10,
-                            repeat: Infinity,
-                            ease: 'linear',
-                        }}
-                    />
-                ))}
+            {/* Cinematic Background Elements */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(76,29,149,0.1),transparent_70%)]" />
+                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px]" />
             </div>
 
-            {/* Glowing Orbs */}
-            <div className="absolute top-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
             <div className="container mx-auto relative z-10">
-                {/* Cinematic Title */}
-                <div className="text-center mb-24 relative">
+                {/* Header */}
+                <div className="text-center mb-16 md:mb-24 px-6">
                     <motion.div
-                        initial={{ scale: 0, rotate: -180 }}
-                        whileInView={{ scale: 1, rotate: 0 }}
-                        transition={{ duration: 0.8, ease: 'backOut' }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent/10 backdrop-blur-sm rounded-full mb-8 border border-accent/20"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full mb-6 border border-white/10"
                     >
-                        <Sparkles className="w-5 h-5 text-accent" />
-                        <span className="text-sm font-bold uppercase tracking-widest text-accent">Proven Results</span>
+                        <Sparkles className="w-4 h-4 text-accent" />
+                        <span className="text-xs font-bold uppercase tracking-widest text-accent">Success Stories</span>
                     </motion.div>
 
                     <h2
                         ref={titleRef}
-                        className="text-[clamp(2.5rem,6vw,5rem)] font-display font-black leading-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground via-accent to-foreground"
+                        className="text-4xl md:text-6xl lg:text-7xl font-display font-black leading-tight mb-6"
                     >
-                        See how companies like yours<br />succeed with Vidana
+                        Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">Industry Leaders</span>
                     </h2>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 0.7, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="text-xl mt-6 max-w-2xl mx-auto"
-                    >
-                        Join hundreds of forward-thinking companies transforming their digital presence
-                    </motion.p>
                 </div>
 
-                {/* Cinematic Accordion Section */}
-                <div ref={accordionRef} className="flex flex-col lg:flex-row gap-4 h-[800px] lg:h-[700px] mb-32">
-                    {TESTIMONIALS.map((item, index) => (
+                {/* Mobile: Horizontal Scroll Snap Carousel */}
+                <div className="lg:hidden w-full overflow-x-auto snap-x snap-mandatory flex gap-4 px-6 pb-12 scrollbar-hide">
+                    {TESTIMONIALS.map((item) => (
+                        <div
+                            key={item.id}
+                            className="snap-center shrink-0 w-[85vw] h-[60vh] relative rounded-3xl overflow-hidden group"
+                        >
+                            {/* Background Image */}
+                            <img
+                                src={item.image}
+                                alt={item.author}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+
+                            {/* Gradient Overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-t ${item.color} opacity-90`} />
+
+                            {/* Content */}
+                            <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                                <div className="mb-auto pt-4">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest opacity-70 mb-2">{item.company}</h3>
+                                </div>
+
+                                <div className="mb-6">
+                                    <div className="text-5xl font-display font-black mb-1">{item.stat}</div>
+                                    <div className="text-sm font-medium opacity-80">{item.statLabel}</div>
+                                </div>
+
+                                <blockquote className="text-lg font-medium leading-relaxed mb-6 relative">
+                                    <Quote className="absolute -top-4 -left-2 w-6 h-6 text-white/20 rotate-180" />
+                                    "{item.quote}"
+                                </blockquote>
+
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-bold">
+                                        {item.author[0]}
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-sm">{item.author}</div>
+                                        <div className="text-xs opacity-60">{item.role}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Desktop: Cinematic Accordion */}
+                <div ref={accordionRef} className="hidden lg:flex gap-4 h-[700px] mb-32 px-6">
+                    {TESTIMONIALS.map((item) => (
                         <motion.div
                             key={item.id}
                             layout
                             onClick={() => setActiveId(item.id)}
-                            className={`relative rounded-[2.5rem] overflow-hidden cursor-pointer transition-all duration-700 ease-out ${activeId === item.id ? 'flex-[3] shadow-2xl' : 'flex-[0.5] hover:flex-[0.7] shadow-lg'
+                            className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${activeId === item.id ? 'flex-[3]' : 'flex-[0.5] hover:flex-[0.7]'
                                 }`}
-                            style={{
-                                isolation: 'isolate',
-                            }}
-                            whileHover={{ scale: activeId === item.id ? 1 : 1.02 }}
-                            transition={{ duration: 0.3 }}
                         >
-                            {/* Background Image (visible when inactive) */}
-                            <div className={`absolute inset-0 transition-all duration-700 ${activeId === item.id ? 'opacity-0 scale-110' : 'opacity-100 scale-100'}`}>
-                                <img
-                                    src={item.image}
-                                    alt={item.author}
-                                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                            {/* Background Image */}
+                            <img
+                                src={item.image}
+                                alt={item.author}
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
 
-                                {/* Inactive Label */}
-                                <div className="absolute bottom-8 left-8 right-8">
-                                    <div className="text-white font-bold text-xl mb-2">{item.company}</div>
-                                    <div className="text-white/80 text-sm">{item.author}</div>
-                                </div>
+                            {/* Overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-b ${activeId === item.id
+                                    ? `bg-gradient-to-r ${item.color} opacity-95`
+                                    : 'from-black/60 via-black/40 to-black/80'
+                                } transition-all duration-500`} />
+
+                            {/* Inactive State Content (Vertical Text) */}
+                            <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${activeId === item.id ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                                }`}>
+                                <h3 className="text-2xl font-bold tracking-widest uppercase -rotate-90 whitespace-nowrap opacity-50 group-hover:opacity-100 transition-opacity">
+                                    {item.company}
+                                </h3>
                             </div>
 
-                            {/* Active Content */}
-                            <AnimatePresence mode="wait">
-                                {activeId === item.id && (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        transition={{ duration: 0.6, delay: 0.1 }}
-                                        className={`absolute inset-0 ${item.color} p-8 md:p-12 flex flex-col md:flex-row gap-8 md:gap-12 items-center backdrop-blur-sm`}
-                                    >
-                                        {/* Animated Background Pattern */}
-                                        <div className="absolute inset-0 opacity-10">
-                                            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                                                <defs>
-                                                    <pattern id={`pattern-${item.id}`} x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                                                        <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="1" />
-                                                        <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                                                    </pattern>
-                                                </defs>
-                                                <rect width="100%" height="100%" fill={`url(#pattern-${item.id})`} />
-                                            </svg>
+                            {/* Active State Content */}
+                            <div className={`absolute inset-0 p-12 flex flex-col justify-between transition-all duration-500 ${activeId === item.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                }`}>
+                                <div className="flex justify-between items-start">
+                                    <div className="text-sm font-bold uppercase tracking-widest opacity-60 border border-white/20 px-3 py-1 rounded-full">
+                                        {item.company}
+                                    </div>
+                                    <ArrowRight className="w-6 h-6 opacity-40" />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-12 items-end">
+                                    <div>
+                                        <div className="text-8xl font-display font-black mb-2 tracking-tighter">
+                                            {item.stat}
                                         </div>
-
-                                        {/* Left Content */}
-                                        <motion.div
-                                            className="flex-1 flex flex-col justify-center h-full z-10"
-                                            initial={{ x: -50, opacity: 0 }}
-                                            animate={{ x: 0, opacity: 1 }}
-                                            transition={{ delay: 0.3, duration: 0.6 }}
-                                        >
-                                            <div className="mb-auto">
-                                                <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 flex items-center gap-2">
-                                                    <div className="w-2 h-2 bg-black/40 rounded-full animate-pulse" />
-                                                    {item.company}
-                                                </div>
+                                        <div className="text-xl font-medium opacity-70 mb-8">
+                                            {item.statLabel}
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-full border border-white/20 overflow-hidden">
+                                                <img src={item.image} alt={item.author} className="w-full h-full object-cover" />
                                             </div>
+                                            <div>
+                                                <div className="font-bold">{item.author}</div>
+                                                <div className="text-sm opacity-60">{item.role}</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                            <motion.div
-                                                className="mb-8"
-                                                initial={{ scale: 0.8, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                transition={{ delay: 0.4, duration: 0.5 }}
-                                            >
-                                                <div className="text-7xl md:text-9xl font-display font-black mb-2 text-black bg-clip-text">
-                                                    {item.stat}
-                                                </div>
-                                                <div className="text-xl font-bold text-black/70">
-                                                    {item.statLabel}
-                                                </div>
-                                            </motion.div>
-
-                                            <motion.blockquote
-                                                className="text-xl md:text-2xl font-medium leading-relaxed mb-8 text-black relative"
-                                                initial={{ y: 20, opacity: 0 }}
-                                                animate={{ y: 0, opacity: 1 }}
-                                                transition={{ delay: 0.5, duration: 0.6 }}
-                                            >
-                                                <span className="text-6xl absolute -top-4 -left-2 opacity-20">"</span>
-                                                {item.quote}
-                                            </motion.blockquote>
-
-                                            <motion.div
-                                                initial={{ y: 20, opacity: 0 }}
-                                                animate={{ y: 0, opacity: 1 }}
-                                                transition={{ delay: 0.6, duration: 0.6 }}
-                                            >
-                                                <div className="font-bold text-black text-lg">{item.author}</div>
-                                                <div className="text-sm text-black/60">{item.role}</div>
-                                            </motion.div>
-
-                                            <motion.div
-                                                className="mt-auto pt-8 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-black cursor-pointer group"
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.7, duration: 0.6 }}
-                                                whileHover={{ x: 10 }}
-                                            >
-                                                Read the Full Story
-                                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
-                                            </motion.div>
-                                        </motion.div>
-
-                                        {/* Right Image (Portrait) */}
-                                        <motion.div
-                                            className="w-full md:w-[40%] h-64 md:h-full rounded-3xl overflow-hidden relative shadow-2xl"
-                                            initial={{ x: 50, opacity: 0, scale: 0.9 }}
-                                            animate={{ x: 0, opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.4, duration: 0.6 }}
-                                        >
-                                            <img
-                                                src={item.image}
-                                                alt={item.author}
-                                                className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                                        </motion.div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                    <blockquote className="text-2xl font-medium leading-relaxed relative">
+                                        <Quote className="absolute -top-8 -left-4 w-12 h-12 text-white/10 rotate-180" />
+                                        "{item.quote}"
+                                    </blockquote>
+                                </div>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
 
-                {/* Cinematic Marquee Section */}
-                <motion.div
-                    className="relative w-full bg-gradient-to-br from-white via-gray-50 to-white rounded-[3rem] p-12 shadow-2xl overflow-hidden border border-white/20"
-                    initial={{ y: 100, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                >
-                    {/* Animated Background Grid */}
-                    <div className="absolute inset-0 opacity-5">
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
-                    </div>
-
-                    <div className="flex items-center justify-between mb-12 border-b border-gray-200 pb-8 relative z-10">
-                        <div className="flex items-center gap-4">
-                            <motion.div
-                                className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ duration: 0.3 }}
+                {/* Marquee Section */}
+                <div className="relative w-full overflow-hidden py-12 border-y border-white/10 bg-white/5 backdrop-blur-sm">
+                    <div className="flex animate-marquee gap-8 min-w-full px-4">
+                        {[...REVIEWS, ...REVIEWS, ...REVIEWS].map((review, idx) => (
+                            <div
+                                key={idx}
+                                className="flex-shrink-0 w-[85vw] md:w-[400px] bg-black/40 p-8 rounded-2xl border border-white/10"
                             >
-                                G2
-                            </motion.div>
-                            <div>
-                                <div className="font-bold text-black text-xl">Global Employment</div>
-                                <div className="text-gray-500">Platform Leader</div>
+                                <div className="flex gap-1 mb-4 text-accent">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <Star key={star} size={16} fill="currentColor" />
+                                    ))}
+                                </div>
+                                <p className="text-gray-300 leading-relaxed mb-6">
+                                    "{review.text}"
+                                </p>
+                                <div className="text-sm font-bold text-white/60">
+                                    {review.author}
+                                </div>
                             </div>
-                        </div>
-                        <motion.button
-                            className="bg-gradient-to-r from-[#333] to-black text-white px-8 py-4 rounded-xl text-sm font-bold hover:shadow-xl transition-all relative overflow-hidden group"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <span className="relative z-10">See all G2 Reviews →</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </motion.button>
+                        ))}
                     </div>
-
-                    {/* Enhanced Marquee */}
-                    <div className="relative flex overflow-hidden mask-linear-fade">
-                        <div className="flex animate-marquee gap-12 min-w-full">
-                            {[...REVIEWS, ...REVIEWS, ...REVIEWS].map((review, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    className="flex-shrink-0 w-[450px] bg-white/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                                    whileHover={{ y: -5, scale: 1.02 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <div className="font-bold text-black mb-4 text-lg">{review.author}</div>
-                                    <div className="flex gap-1 mb-4 text-[#F44336]">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <Star key={star} size={22} fill="currentColor" className="drop-shadow-sm" />
-                                        ))}
-                                    </div>
-                                    <p className="text-gray-700 leading-relaxed text-lg">
-                                        "{review.text}"
-                                    </p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

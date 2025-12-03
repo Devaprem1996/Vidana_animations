@@ -100,9 +100,19 @@ const Index = () => {
             </div>
           </RevealOnScroll>
 
+
           {/* Horizontal Scroll Sections */}
-          <VidanaProjects />
-          <VidanaStories />
+          <RevealOnScroll animation="scaleOut" delay={0}>
+            <div className="overflow-hidden animate-clip-polygon">
+              <VidanaProjects />
+            </div>
+          </RevealOnScroll>
+
+          <RevealOnScroll animation="zoomIn" delay={0}>
+            <div className="overflow-hidden animate-clip-inset">
+              <VidanaStories />
+            </div>
+          </RevealOnScroll>
 
 
 
@@ -138,7 +148,7 @@ const Index = () => {
           <RevealOnScroll animation="fadeInUp" delay={0}>
             <footer
               id="contact"
-              className="relative py-24 px-6 bg-transparent text-primary-foreground overflow-hidden animate-clip-angle-top"
+              className="relative py-24 px-6 bg-transparent text-foreground overflow-hidden animate-clip-angle-top"
             >
               <RunningAnimal />
               {/* Squares Background */}
