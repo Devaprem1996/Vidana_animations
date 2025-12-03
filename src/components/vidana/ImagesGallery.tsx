@@ -1,0 +1,272 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const IMAGES = [
+    // Top row
+    { url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&h=200&fit=crop", position: 'top-left-1', title: "Software Development" },
+    { url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop", position: 'top-left-2', title: "Photo Editing" },
+    { url: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=300&h=200&fit=crop", position: 'top-center-1', title: "Still Moments" },
+    { url: "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=300&h=200&fit=crop", position: 'top-center-2', title: "3D Modeling" },
+    { url: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&h=200&fit=crop", position: 'top-right-1', title: "Design Systems" },
+    { url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop", position: 'top-right-2', title: "Video Rendering" },
+
+    // Middle-top row
+    { url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop", position: 'mid-top-left-1', title: "Data Analytics" },
+    { url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop", position: 'mid-top-left-2', title: "Business Growth" },
+    { url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=300&h=200&fit=crop", position: 'mid-top-right-1', title: "Team Collaboration" },
+    { url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=300&h=200&fit=crop", position: 'mid-top-right-2', title: "Workspace" },
+
+    // Center row
+    { url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=300&h=200&fit=crop", position: 'center-left-1', title: "Code Development" },
+    { url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=300&h=200&fit=crop", position: 'center-left-2', title: "Technology" },
+    { url: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop", position: 'center-right-1', title: "Innovation" },
+    { url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&h=200&fit=crop", position: 'center-right-2', title: "Digital Work" },
+
+    // Middle-bottom row
+    { url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=300&h=200&fit=crop", position: 'mid-bottom-left-1', title: "Strategy" },
+    { url: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=300&h=200&fit=crop", position: 'mid-bottom-left-2', title: "Planning" },
+    { url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=300&h=200&fit=crop", position: 'mid-bottom-right-1', title: "Meetings" },
+    { url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=300&h=200&fit=crop", position: 'mid-bottom-right-2', title: "Brainstorming" },
+
+    // Bottom row
+    { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop", position: 'bottom-left-1', title: "Teamwork" },
+    { url: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=300&h=200&fit=crop", position: 'bottom-left-2', title: "Success" },
+    { url: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=300&h=200&fit=crop", position: 'bottom-center-1', title: "Leadership" },
+    { url: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=200&fit=crop", position: 'bottom-center-2', title: "Vision" },
+    { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop", position: 'bottom-right-1', title: "Creative" },
+    { url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=200&fit=crop", position: 'bottom-right-2', title: "Professional" },
+];
+
+export const ImagesGallery = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
+    const circlesRef = useRef<(SVGCircleElement | null)[]>([]);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+        if (!container || !content) return;
+
+        const ctx = gsap.context(() => {
+            // Create timeline for the scroll animation with pinning
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top top",
+                    end: "+=4000", // Long scroll distance for all animations
+                    scrub: 1,
+                    pin: content, // Pin the content while scrolling
+                    anticipatePin: 1
+                }
+            });
+
+            // Animate circles expanding
+            circlesRef.current.forEach((circle, index) => {
+                if (circle) {
+                    tl.fromTo(
+                        circle,
+                        {
+                            r: 0,
+                            opacity: 0
+                        },
+                        {
+                            r: circle.getAttribute('data-final-r'),
+                            opacity: 0.08,
+                            duration: 0.2,
+                            ease: "power2.out"
+                        },
+                        index * 0.05
+                    );
+                }
+            });
+
+            // Animate images from center to their positions
+            imagesRef.current.forEach((image, index) => {
+                if (image) {
+                    const position = IMAGES[index].position;
+                    let fromX = 0;
+                    let fromY = 0;
+
+                    // Determine starting position (center)
+                    if (position.includes('left')) fromX = 50;
+                    if (position.includes('right')) fromX = -50;
+                    if (position.includes('top')) fromY = 40;
+                    if (position.includes('bottom')) fromY = -40;
+                    if (position.includes('mid-top')) fromY = 20;
+                    if (position.includes('mid-bottom')) fromY = -20;
+
+                    tl.fromTo(
+                        image,
+                        {
+                            x: fromX + '%',
+                            y: fromY + '%',
+                            opacity: 0,
+                            scale: 0.3,
+                            rotation: gsap.utils.random(-15, 15)
+                        },
+                        {
+                            x: '0%',
+                            y: '0%',
+                            opacity: 1,
+                            scale: 1,
+                            rotation: 0,
+                            duration: 0.3,
+                            ease: "back.out(1.2)"
+                        },
+                        index * 0.08
+                    );
+                }
+            });
+        }, container);
+
+        return () => ctx.revert();
+    }, []);
+
+    const getImagePositionClass = (position: string) => {
+        const positions: Record<string, string> = {
+            // Top row
+            'top-left-1': 'top-[5%] left-[2%]',
+            'top-left-2': 'top-[5%] left-[15%]',
+            'top-center-1': 'top-[5%] left-[38%]',
+            'top-center-2': 'top-[5%] right-[38%]',
+            'top-right-1': 'top-[5%] right-[15%]',
+            'top-right-2': 'top-[5%] right-[2%]',
+
+            // Middle-top row
+            'mid-top-left-1': 'top-[22%] left-[5%]',
+            'mid-top-left-2': 'top-[22%] left-[20%]',
+            'mid-top-right-1': 'top-[22%] right-[20%]',
+            'mid-top-right-2': 'top-[22%] right-[5%]',
+
+            // Center row
+            'center-left-1': 'top-[42%] left-[2%]',
+            'center-left-2': 'top-[42%] left-[15%]',
+            'center-right-1': 'top-[42%] right-[15%]',
+            'center-right-2': 'top-[42%] right-[2%]',
+
+            // Middle-bottom row
+            'mid-bottom-left-1': 'bottom-[22%] left-[5%]',
+            'mid-bottom-left-2': 'bottom-[22%] left-[20%]',
+            'mid-bottom-right-1': 'bottom-[22%] right-[20%]',
+            'mid-bottom-right-2': 'bottom-[22%] right-[5%]',
+
+            // Bottom row
+            'bottom-left-1': 'bottom-[5%] left-[2%]',
+            'bottom-left-2': 'bottom-[5%] left-[15%]',
+            'bottom-center-1': 'bottom-[5%] left-[38%]',
+            'bottom-center-2': 'bottom-[5%] right-[38%]',
+            'bottom-right-1': 'bottom-[5%] right-[15%]',
+            'bottom-right-2': 'bottom-[5%] right-[2%]',
+        };
+        return positions[position] || '';
+    };
+
+    return (
+        <section ref={containerRef} className="relative bg-black text-white">
+            <div ref={contentRef} className="h-screen flex">
+                {/* Left side - Sticky header */}
+                <div className="w-1/6 flex items-center justify-center">
+                    <h2 className="text-5xl font-display font-bold writing-mode-vertical-rl rotate-180">
+                        IMAGES
+                    </h2>
+                </div>
+
+                {/* Center - SVG circles and text */}
+                <div className="flex-1 relative flex items-center justify-center overflow-hidden">
+                    {/* SVG Background Circles */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+                        <circle
+                            ref={el => circlesRef.current[0] = el}
+                            cx="500"
+                            cy="500"
+                            r="0"
+                            data-final-r="120"
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth="1"
+                        />
+                        <circle
+                            ref={el => circlesRef.current[1] = el}
+                            cx="500"
+                            cy="500"
+                            r="0"
+                            data-final-r="200"
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth="1"
+                        />
+                        <circle
+                            ref={el => circlesRef.current[2] = el}
+                            cx="500"
+                            cy="500"
+                            r="0"
+                            data-final-r="280"
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth="1"
+                        />
+                        <circle
+                            ref={el => circlesRef.current[3] = el}
+                            cx="500"
+                            cy="500"
+                            r="0"
+                            data-final-r="360"
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth="1"
+                        />
+                        <circle
+                            ref={el => circlesRef.current[4] = el}
+                            cx="500"
+                            cy="500"
+                            r="0"
+                            data-final-r="440"
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth="1"
+                        />
+                    </svg>
+
+                    {/* Center Text */}
+                    <div className="relative z-10 text-center max-w-2xl px-8">
+                        <h3 className="text-4xl md:text-5xl font-display font-light mb-4 leading-tight">
+                            Curiosity, friction, iteration:
+                        </h3>
+                        <p className="text-3xl md:text-4xl font-display font-light">
+                            The machinery of my design
+                        </p>
+                    </div>
+
+                    {/* Images positioned around the center */}
+                    {IMAGES.map((image, index) => (
+                        <div
+                            key={index}
+                            ref={el => imagesRef.current[index] = el}
+                            className={`absolute ${getImagePositionClass(image.position)} w-48 h-32 opacity-0`}
+                        >
+                            <div className="relative w-full h-full group">
+                                <img
+                                    src={image.url}
+                                    alt={image.title}
+                                    className="w-full h-full object-cover rounded-md shadow-2xl"
+                                />
+                                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md flex items-center justify-center">
+                                    <p className="text-white text-xs font-bold px-2 text-center">
+                                        {image.title}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Right side - Optional spacing */}
+                <div className="w-1/6"></div>
+            </div>
+        </section>
+    );
+};
