@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
+import { AnomalousMatterHero } from '@/components/ui/anomalous-matter-hero';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -182,41 +183,13 @@ const About = () => {
 
                 <main className="pt-32">
                     {/* Hero Section */}
-                    <section ref={heroRef} className="px-6 mb-32">
-                        <div className="container mx-auto">
-                            <motion.span
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs font-bold uppercase tracking-widest mb-8 text-accent"
-                            >
-                                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                                Who We Are
-                            </motion.span>
-
-                            <h1 className="text-[clamp(3rem,8vw,8rem)] font-display font-black leading-[0.9] mb-12">
-                                {["WE CRAFT DIGITAL", "EXPERIENCES THAT", "DEFY GRAVITY."].map((line, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, y: 50, clipPath: "inset(0 0 100% 0)" }}
-                                        animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-                                        transition={{ duration: 0.8, delay: 0.2 + i * 0.2, ease: [0.22, 1, 0.36, 1] }}
-                                    >
-                                        {line}
-                                    </motion.div>
-                                ))}
-                            </h1>
-
-                            <motion.p
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.8 }}
-                                className="text-xl md:text-3xl max-w-4xl leading-relaxed text-white/60"
-                            >
-                                Vidana is a forward-thinking design studio operating at the intersection of art, technology, and commerce. We believe in the power of motion to tell compelling stories.
-                            </motion.p>
-                        </div>
-                    </section>
+                    <div className="relative h-screen mb-32">
+                        <AnomalousMatterHero
+                            title="Who We Are"
+                            subtitle="WE CRAFT DIGITAL EXPERIENCES THAT DEFY GRAVITY."
+                            description="Vidana is a forward-thinking design studio operating at the intersection of art, technology, and commerce. We believe in the power of motion to tell compelling stories."
+                        />
+                    </div>
 
                     {/* Image Section */}
                     <section className="px-6 mb-32">

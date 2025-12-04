@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Nav } from "@/components/vidana/Nav";
 import { Hero } from "@/components/vidana/Hero";
 import { BrandStrip } from "@/components/vidana/BrandStrip";
-import { RunningAnimal } from "@/components/vidana/RunningAnimal";
 import { CinematicLoader } from "@/components/vidana/CinematicLoader";
 import { Plasma } from "@/components/vidana/Plasma";
 import { VidanaOverview } from "@/components/vidana/VidanaOverview";
@@ -105,7 +104,7 @@ const Index = () => {
             id="contact"
             className="relative py-24 px-6 bg-transparent text-foreground overflow-hidden"
           >
-            <RunningAnimal />
+
             {/* Squares Background */}
             <div className="absolute inset-0 z-0 opacity-20">
               <Squares

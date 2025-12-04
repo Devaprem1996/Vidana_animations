@@ -80,7 +80,7 @@ export const VidanaProjects = () => {
                 scaleEndPosition="10%"
                 baseScale={0.85}
                 rotationAmount={2}
-                blurAmount={3}
+                blurAmount={7}
                 useWindowScroll={true}
             >
                 {PROJECTS.map((project) => (
