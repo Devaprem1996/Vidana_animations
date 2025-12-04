@@ -1,202 +1,171 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { RotateInAnimation } from '@/components/animations/RotateInAnimation';
+import { BackgroundParallax, ParallaxLayer } from '@/components/animations/ParallaxLayer';
+import { CINEMATIC_EASE, ZOOM_CONFIG } from '@/utils/ParallaxConfig';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const VidanaOverview = () => {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const textRef = useRef(null);
-  const statsRef = useRef(null);
-  const stat1Ref = useRef(null);
-  const stat2Ref = useRef(null);
-  const stat3Ref = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const title = titleRef.current;
-    const text = textRef.current;
-    const stats = statsRef.current;
+    const content = contentRef.current;
+
+    if (!section || !content) return;
 
     const ctx = gsap.context(() => {
-      gsap.from(title, {
-        scrollTrigger: {
-          trigger: title,
-          start: "top 80%",
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out"
-      });
-
-      gsap.from(text, {
-        scrollTrigger: {
-          trigger: text,
-          start: "top 80%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: 0.2,
-        ease: "power3.out"
-      });
-
-      gsap.from(stats, {
-        scrollTrigger: {
-          trigger: stats,
-          start: "top 85%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: 0.4,
-        ease: "power3.out"
-      });
-
-      // Counter animations
-      gsap.from(stat2Ref.current, {
-        scrollTrigger: {
-          trigger: stats,
-          start: "top 80%",
-        },
-        textContent: 0,
-        duration: 2,
-        delay: 0.6,
-        snap: { textContent: 1 },
-        onUpdate: function () {
-          stat2Ref.current.textContent = Math.ceil(this.targets()[0].textContent) + "+";
+      // Zoom-in reveal effect
+      gsap.fromTo(section,
+        { scale: ZOOM_CONFIG.zoomIn.from, opacity: 0 },
+        {
+          scale: ZOOM_CONFIG.zoomIn.to,
+          opacity: 1,
+          ease: CINEMATIC_EASE.smooth,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: 1,
+          }
         }
+      );
+
+      // SVG path animation
+      const paths = section.querySelectorAll('.signature-path');
+      paths.forEach((path, index) => {
+        const length = (path as SVGPathElement).getTotalLength();
+
+        gsap.fromTo(path,
+          {
+            strokeDasharray: length,
+            strokeDashoffset: length,
+          },
+          {
+            strokeDashoffset: 0,
+            duration: 2,
+            ease: CINEMATIC_EASE.smooth,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 60%",
+              end: "top 20%",
+              scrub: 1,
+            },
+            delay: index * 0.1,
+          }
+        );
       });
 
-      gsap.from(stat3Ref.current, {
-        scrollTrigger: {
-          trigger: stats,
-          start: "top 80%",
-        },
-        textContent: 0,
-        duration: 2,
-        delay: 0.8,
-        snap: { textContent: 1 },
-        onUpdate: function () {
-          stat3Ref.current.textContent = Math.ceil(this.targets()[0].textContent) + "%";
-        }
-      });
     }, section);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 bg-background text-foreground overflow-hidden">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          {/* Left Side - SVG Signature */}
-          <div className="md:col-span-4 flex items-center justify-center">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen py-32 px-6 bg-white text-black overflow-hidden"
+      style={{ transformOrigin: 'center center' }}
+    >
+      {/* Background Parallax Layer */}
+      <BackgroundParallax className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]" />
+      </BackgroundParallax>
+
+      {/* Content with parallax */}
+      <ParallaxLayer speed={0.7} className="container mx-auto relative z-10">
+        <div ref={contentRef} className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="mb-16 text-center">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-black/5 text-xs font-bold uppercase tracking-widest mb-8">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              (01) — Who We Are
+            </span>
+            <h2 className="text-[clamp(3rem,8vw,6rem)] font-display font-black leading-none mb-6">
+              VIDANA
+            </h2>
+          </div>
+
+          {/* SVG Signature Animation */}
+          <div className="flex justify-center mb-16">
             <svg
-              width="300"
-              height="160"
-              viewBox="0 0 300 160"
+              width="600"
+              height="300"
+              viewBox="0 0 600 300"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full max-w-sm"
+              className="w-full max-w-2xl"
             >
-              <style>
-                {`
-                  .signature {
-                    fill: none;
-                    stroke: #00c6ff;
-                    stroke-width: 3;
-                    stroke-linecap: round;
-                    stroke-linejoin: round;
-                    stroke-dasharray: 800;
-                    stroke-dashoffset: 800;
-                    animation: draw 4s ease-out forwards;
-                  }
-
-                  .glow {
-                    filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.6));
-                  }
-
-                  .title {
-                    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro", "Inter", sans-serif;
-                    font-size: 32px;
-                    font-weight: 600;
-                    letter-spacing: 0.16em;
-                    fill: #f9fafb;
-                  }
-
-                  @keyframes draw {
-                    0% {
-                      stroke-dashoffset: 800;
-                    }
-                    80% {
-                      stroke-dashoffset: 0;
-                    }
-                    100% {
-                      stroke-dashoffset: 0;
-                    }
-                  }
-                `}
-              </style>
-
-              {/* Text */}
-              <text x="20" y="60" className="title">VIDANA</text>
-              <text x="20" y="90" className="title" style={{ fontSize: '14px', opacity: 0.6 }}>
-                FUTURE SYSTEMS LAB
-              </text>
-
-              {/* Signature / underline path */}
+              {/* Animated signature paths */}
               <path
-                className="signature glow"
-                d="M20 105
-                   Q 60 120 95 110
-                   T 165 105
-                   Q 190 103 210 115
-                   T 260 105
-                   Q 275 100 290 110"
+                className="signature-path"
+                d="M 50 150 Q 100 50, 200 150 T 400 150"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                className="signature-path"
+                d="M 420 100 L 450 200 L 480 100"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                className="signature-path"
+                d="M 500 150 Q 520 100, 550 150"
+                stroke="currentColor"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
               />
             </svg>
           </div>
 
-          {/* Right Side - Content */}
-          <div className="md:col-span-8">
-            <h2 ref={titleRef} className="text-[clamp(2rem,5vw,4rem)] font-display font-bold leading-[1.1] mb-12">
-              VIDANA IS A DIGITAL CONSULTANCY DRIVING TRANSFORMATION THROUGH DESIGN AND TECHNOLOGY.
-            </h2>
-            <div ref={textRef} className="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg leading-relaxed text-gray-500">
-              <p>
-                We were founded with a singular mission: to bridge the gap between complex business processes and elegant digital solutions. We don't just build software; we craft ecosystems.
-              </p>
-              <p>
-                From our roots in RPA and AI to our expansion into global markets, our journey has been defined by a relentless pursuit of quality and innovation.
-              </p>
+          {/* Description */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-4xl font-display font-bold mb-6">
+                Transforming Ideas Into Digital Excellence
+              </h3>
             </div>
-
-            <div ref={statsRef} className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-12 justify-between items-center">
-              <RotateInAnimation axis="y" delay={0.6} duration={0.8}>
-                <div>
-                  <span ref={stat1Ref} className="block text-4xl font-display font-bold">2015</span>
-                  <span className="text-sm uppercase tracking-widest">Founded</span>
-                </div>
-              </RotateInAnimation>
-              <RotateInAnimation axis="y" delay={0.8} duration={0.8}>
-                <div>
-                  <span ref={stat2Ref} className="block text-4xl font-display font-bold">50+</span>
-                  <span className="text-sm uppercase tracking-widest">Global Clients</span>
-                </div>
-              </RotateInAnimation>
-              <RotateInAnimation axis="y" delay={1.0} duration={0.8}>
-                <div>
-                  <span ref={stat3Ref} className="block text-4xl font-display font-bold">200</span>
-                  <span className="text-sm uppercase tracking-widest">Growth</span>
-                </div>
-              </RotateInAnimation>
+            <div className="space-y-4 text-lg text-gray-600 leading-relaxed">
+              <p>
+                We are a digital consulting firm specializing in business process optimization,
+                360° transformation, and innovative technology solutions.
+              </p>
+              <p>
+                Our mission is to empower businesses through cutting-edge AI, RPA, and blockchain
+                technologies while building sustainable talent pipelines.
+              </p>
             </div>
           </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
+            {[
+              { number: "150+", label: "Projects Delivered" },
+              { number: "50+", label: "Happy Clients" },
+              { number: "15+", label: "Years Experience" },
+              { number: "100%", label: "Success Rate" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-5xl font-display font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-500">
+                  {stat.number}
+                </div>
+                <div className="text-sm uppercase tracking-widest text-gray-500">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </ParallaxLayer>
     </section>
   );
 };

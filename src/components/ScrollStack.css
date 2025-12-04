@@ -13,6 +13,11 @@
   scrollbar-width: none;
 }
 
+.scroll-stack-scroller.window-scroll {
+  height: auto;
+  overflow: visible;
+}
+
 .scroll-stack-inner {
   padding: 10vh 0 50vh;
   min-height: 100vh;

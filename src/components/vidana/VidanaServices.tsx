@@ -3,6 +3,8 @@ import { ArrowUpRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import { BackgroundParallax, MidgroundParallax, ParallaxLayer } from '@/components/animations/ParallaxLayer';
+import { CINEMATIC_EASE } from '@/utils/ParallaxConfig';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,7 +58,7 @@ export const VidanaServices = () => {
 
             tl.fromTo(circle,
                 { scale: 0, opacity: 0, rotation: -180 },
-                { scale: 1, opacity: 1, rotation: 0, duration: 1.5, ease: "power3.out" }
+                { scale: 1, opacity: 1, rotation: 0, duration: 1.5, ease: CINEMATIC_EASE.dramatic }
             );
 
             // 2. Content Fade In
@@ -66,7 +68,7 @@ export const VidanaServices = () => {
                     opacity: 1,
                     y: 0,
                     duration: 1,
-                    ease: "power3.out",
+                    ease: CINEMATIC_EASE.smooth,
                     scrollTrigger: {
                         trigger: section,
                         start: "top top",
@@ -86,7 +88,7 @@ export const VidanaServices = () => {
                     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
                     stagger: 0.2,
                     duration: 1,
-                    ease: "power3.out",
+                    ease: CINEMATIC_EASE.smooth,
                     scrollTrigger: {
                         trigger: list,
                         start: "top 80%",
@@ -96,7 +98,7 @@ export const VidanaServices = () => {
                 }
             );
 
-            // 4. Parallax on items
+            // 4. Parallax on items (alternating directions)
             Array.from(items).forEach((item, index) => {
                 gsap.to(item, {
                     y: -30 * (index % 2 === 0 ? 1 : -1),

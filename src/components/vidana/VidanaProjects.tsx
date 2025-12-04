@@ -72,89 +72,88 @@ export const VidanaProjects = () => {
             </div>
 
             {/* ScrollStack Container */}
-            <div className="relative z-10">
-                <ScrollStack
-                    itemDistance={0}
-                    itemScale={0}
-                    itemStackDistance={0}
-                    stackPosition="15%"
-                    scaleEndPosition="15%"
-                    baseScale={0.9}
-                    useWindowScroll={false}
+            <ScrollStack
+                itemDistance={150}
+                itemScale={0.05}
+                itemStackDistance={40}
+                stackPosition="20%"
+                scaleEndPosition="10%"
+                baseScale={0.85}
+                rotationAmount={2}
+                blurAmount={3}
+                useWindowScroll={true}
+            >
+                {PROJECTS.map((project) => (
+                    <ScrollStackItem key={project.id}>
+                        <div className="relative w-full h-full overflow-hidden bg-black">
+                            {/* Background Image */}
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
 
-                >
-                    {PROJECTS.map((project) => (
-                        <ScrollStackItem key={project.id}>
-                            <div className="relative w-full h-full overflow-hidden bg-black">
-                                {/* Background Image */}
-                                <img
-                                    src={project.image}
-                                    alt={project.title}
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                />
+                            {/* Gradient Overlay */}
+                            <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-90`} />
 
-                                {/* Gradient Overlay */}
-                                <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-90`} />
-
-                                {/* Content */}
-                                <div className="relative h-full flex items-center">
-                                    <div className="container mx-auto px-8 md:px-12">
-                                        <div className="max-w-3xl">
-                                            {/* Category & Year */}
-                                            <div className="flex items-center gap-4 mb-6">
-                                                <span className="text-accent text-sm font-bold uppercase tracking-[0.2em]">
-                                                    <span className="inline-block w-2 h-2 bg-accent rounded-full mr-2 animate-pulse" />
-                                                    {project.category}
-                                                </span>
-                                                <span className="h-[1px] w-12 bg-white/20" />
-                                                <span className="text-white/40 font-mono text-sm">{project.year}</span>
-                                            </div>
-
-                                            {/* Title */}
-                                            <h3 className="text-[clamp(2.5rem,6vw,5rem)] font-display font-black leading-[0.9] mb-6">
-                                                {project.title}
-                                            </h3>
-
-                                            {/* Description */}
-                                            <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed max-w-2xl">
-                                                {project.description}
-                                            </p>
-
-                                            {/* Tags */}
-                                            <div className="flex flex-wrap gap-3 mb-10">
-                                                {project.tags.map((tag) => (
-                                                    <span
-                                                        key={tag}
-                                                        className="px-4 py-2 border border-white/20 bg-white/10 backdrop-blur-sm rounded-full text-xs uppercase tracking-wider hover:bg-white/20 transition-all duration-300"
-                                                    >
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                            </div>
-
-                                            {/* CTA Button */}
-                                            <button className="group flex items-center gap-4 text-sm font-bold uppercase tracking-widest">
-                                                <span className="relative">
-                                                    View Project
-                                                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent group-hover:w-full transition-all duration-500" />
-                                                </span>
-                                                <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                                                    <ArrowUpRight className="w-5 h-5" />
-                                                </div>
-                                            </button>
+                            {/* Content */}
+                            <div className="relative h-full flex items-center">
+                                <div className="container mx-auto px-8 md:px-12">
+                                    <div className="max-w-3xl">
+                                        {/* Category & Year */}
+                                        <div className="flex items-center gap-4 mb-6">
+                                            <span className="text-accent text-sm font-bold uppercase tracking-[0.2em]">
+                                                <span className="inline-block w-2 h-2 bg-accent rounded-full mr-2 animate-pulse" />
+                                                {project.category}
+                                            </span>
+                                            <span className="h-[1px] w-12 bg-white/20" />
+                                            <span className="text-white/40 font-mono text-sm">{project.year}</span>
                                         </div>
+
+                                        {/* Title */}
+                                        <h3 className="text-[clamp(2.5rem,6vw,5rem)] font-display font-black leading-[0.9] mb-6">
+                                            {project.title}
+                                        </h3>
+
+                                        {/* Description */}
+                                        <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed max-w-2xl">
+                                            {project.description}
+                                        </p>
+
+                                        {/* Tags */}
+                                        <div className="flex flex-wrap gap-3 mb-10">
+                                            {project.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="px-4 py-2 border border-white/20 bg-white/10 backdrop-blur-sm rounded-full text-xs uppercase tracking-wider hover:bg-white/20 transition-all duration-300"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        {/* CTA Button */}
+                                        <button className="group flex items-center gap-4 text-sm font-bold uppercase tracking-widest">
+                                            <span className="relative">
+                                                View Project
+                                                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent group-hover:w-full transition-all duration-500" />
+                                            </span>
+                                            <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                                                <ArrowUpRight className="w-5 h-5" />
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
-
-                                {/* Project ID Badge */}
-                                <div className="absolute top-8 right-8 px-4 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/20 font-mono text-sm">
-                                    {String(project.id).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}
-                                </div>
                             </div>
-                        </ScrollStackItem>
-                    ))}
-                </ScrollStack>
-            </div>
-        </section>
+
+                            {/* Project ID Badge */}
+                            <div className="absolute top-8 right-8 px-4 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/20 font-mono text-sm">
+                                {String(project.id).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}
+                            </div>
+                        </div>
+                    </ScrollStackItem>
+                ))}
+            </ScrollStack>
+        </section >
     );
 };
