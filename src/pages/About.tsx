@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
 import { AnomalousMatterHero } from '@/components/ui/anomalous-matter-hero';
+import { WavyBackground } from '@/components/ui/wavy-background';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -264,37 +265,37 @@ const About = () => {
                     <BrandStrip />
 
                     {/* Footer CTA */}
-                    <footer className="py-32 px-6 bg-gradient-to-b from-black to-accent/10 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-
-                        <div className="container mx-auto relative z-10">
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                className="text-center"
-                            >
-                                <h2 className="text-[clamp(3rem,10vw,10rem)] font-display font-black leading-none mb-8">
-                                    JOIN<br />US
-                                </h2>
-                                <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
-                                    Ready to create something extraordinary? Let's build the future together.
-                                </p>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="group inline-flex items-center gap-4 px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:bg-accent transition-colors duration-300"
+                    <footer className="relative overflow-hidden">
+                        <WavyBackground className="max-w-4xl mx-auto pb-40">
+                            <div className="container mx-auto relative z-10">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="text-center"
                                 >
-                                    Get in Touch
-                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
-                            </motion.div>
+                                    <h2 className="text-[clamp(3rem,10vw,10rem)] font-display font-black leading-none mb-8 text-white">
+                                        JOIN<br />US
+                                    </h2>
+                                    <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
+                                        Ready to create something extraordinary? Let's build the future together.
+                                    </p>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="group inline-flex items-center gap-4 px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:bg-accent transition-colors duration-300"
+                                    >
+                                        Get in Touch
+                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+                                </motion.div>
 
-                            <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs uppercase tracking-widest text-white/40">
-                                <span>© 2024 Vidana</span>
-                                <span>Crafted with Precision</span>
+                                <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs uppercase tracking-widest text-white/40">
+                                    <span>© 2024 Vidana</span>
+                                    <span>Crafted with Precision</span>
+                                </div>
                             </div>
-                        </div>
+                        </WavyBackground>
                     </footer>
                 </main>
             </div>
