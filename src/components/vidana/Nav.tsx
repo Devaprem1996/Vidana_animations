@@ -7,17 +7,7 @@ import { MagneticButton } from '@/components/animations/MagneticButton';
 
 export const Nav = ({ showLogo = true }: { showLogo?: boolean }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -51,10 +41,7 @@ export const Nav = ({ showLogo = true }: { showLogo?: boolean }) => {
     return (
         <>
             <motion.nav
-                className={cn(
-                    "fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center transition-all duration-300",
-                    isScrolled ? "bg-background/80 backdrop-blur-md shadow-lg" : "bg-transparent mix-blend-difference text-white"
-                )}
+                className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-transparent mix-blend-difference text-white"
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}

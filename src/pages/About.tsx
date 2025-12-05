@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
 import { AnomalousMatterHero } from '@/components/ui/anomalous-matter-hero';
 import { WavyBackground } from '@/components/ui/wavy-background';
+import { ScrollToNext } from '@/components/animations/ScrollToNext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -299,6 +300,8 @@ const About = () => {
                     </footer>
                 </main>
             </div>
+
+            <ScrollToNext />
         </div>
     );
 };

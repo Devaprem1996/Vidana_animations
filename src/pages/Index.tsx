@@ -25,11 +25,17 @@ import { AnimatedLogo } from "@/components/animations/SVGAnimation";
 gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // Check if user has already seen the loader in this session
+  const [isLoading, setIsLoading] = useState(() => {
+    const hasSeenLoader = sessionStorage.getItem('hasSeenLoader');
+    return !hasSeenLoader; // Only show loader if not seen before
+  });
   const [showNavLogo, setShowNavLogo] = useState(false);
 
   useEffect(() => {
     if (!isLoading) {
+      // Mark that user has seen the loader
+      sessionStorage.setItem('hasSeenLoader', 'true');
       ScrollTrigger.refresh();
       setTimeout(() => setShowNavLogo(true), 800);
     }

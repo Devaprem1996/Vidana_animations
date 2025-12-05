@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { Flip } from 'gsap/Flip';
-
-gsap.registerPlugin(Flip);
+import { motion } from 'framer-motion';
 
 interface CinematicLoaderProps {
     onComplete: () => void;
@@ -14,16 +12,16 @@ export const CinematicLoader = ({ onComplete }: CinematicLoaderProps) => {
     const logoRef = useRef<HTMLDivElement>(null);
     const ringRef = useRef<SVGCircleElement>(null);
     const counterRef = useRef<HTMLDivElement>(null);
+    const bgLayersRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        // Simulate loading
+        // Simulate loading with realistic progress
         const interval = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval);
                     return 100;
                 }
-                // Non-linear progress for realism
                 const increment = Math.random() * 15;
                 return Math.min(prev + increment, 100);
             });
@@ -36,63 +34,57 @@ export const CinematicLoader = ({ onComplete }: CinematicLoaderProps) => {
         if (progress >= 100) {
             const tl = gsap.timeline({
                 onComplete: () => {
-                    onComplete();
+                    setTimeout(onComplete, 300);
                 }
             });
 
-            // 1. Fade out counter and ring
-            tl.to([counterRef.current, ringRef.current], {
+            // 1. Fade out counter and ring with parallax
+            tl.to(counterRef.current, {
                 opacity: 0,
+                y: 50,
                 scale: 0.8,
-                duration: 0.5,
+                duration: 0.6,
                 ease: "power2.in"
             })
-                // 2. Animate Logo to Nav position (FLIP will be handled in parent/Nav, 
-                // but here we just prepare the exit or animate the container out)
-                // Actually, for the "cinematic transition", we want the background to reveal the hero.
-
-                // Let's animate the container clip-path to reveal the hero underneath
-                .to(containerRef.current, {
-                    clipPath: "circle(0% at 50% 50%)", // Shrink to center? Or expand? 
-                    // User asked for: "Scale down + fade out into the top-left corner" OR "clip-path reveal"
-                    // Let's do the "Scale down + fade out into top-left" for the logo, 
-                    // and fade out the background.
-
-                    // Actually, let's fade out the background while keeping the logo visible for the FLIP
-                    backgroundColor: "transparent",
+                .to(ringRef.current, {
+                    opacity: 0,
+                    scale: 1.5,
+                    rotation: 180,
                     duration: 0.8,
+                    ease: "power2.in"
+                }, "<")
+
+                // 2. Animate background layers with parallax
+                .to(bgLayersRef.current, {
+                    scale: 1.2,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1,
                     ease: "power2.inOut"
-                }, "-=0.2");
+                }, "-=0.4")
 
-            // The actual FLIP of the logo needs to happen in the parent context where both 
-            // the loader logo and nav logo exist. 
-            // For now, we'll just signal completion and let the parent handle the FLIP 
-            // or we can animate this logo to the top-left coordinates blindly if we know them.
-            // A safer bet for "cinematic" feel without complex FLIP state sharing is:
-            // Animate this logo to top-left, then swap.
+                // 3. Logo animation - scale and move to nav position
+                .to(logoRef.current, {
+                    scale: 0.3,
+                    y: -window.innerHeight / 2 + 50,
+                    x: -window.innerWidth / 2 + 100,
+                    duration: 1.2,
+                    ease: "power4.inOut"
+                }, "-=0.8")
 
-            const isMobile = window.innerWidth < 768;
-            const targetX = isMobile ? 24 : 48; // approx padding-left
-            const targetY = isMobile ? 24 : 40; // approx padding-top
-
-            tl.to(logoRef.current, {
-                top: targetY,
-                left: targetX,
-                xPercent: 0,
-                yPercent: 0,
-                scale: 0.4, // Scale down to nav size
-                transformOrigin: "top left",
-                duration: 1,
-                ease: "power4.inOut"
-            }, "<");
-
+                // 4. Fade out entire container with clip-path reveal
+                .to(containerRef.current, {
+                    clipPath: "circle(0% at 10% 10%)",
+                    duration: 1,
+                    ease: "power3.inOut"
+                }, "-=0.6");
         }
     }, [progress, onComplete]);
 
-    // Update ring dashoffset
+    // Update ring dashoffset smoothly
     useEffect(() => {
         if (ringRef.current) {
-            const circumference = 2 * Math.PI * 45; // r=45
+            const circumference = 2 * Math.PI * 45;
             const offset = circumference - (progress / 100) * circumference;
             gsap.to(ringRef.current, {
                 strokeDashoffset: offset,
@@ -105,20 +97,77 @@ export const CinematicLoader = ({ onComplete }: CinematicLoaderProps) => {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none"
+            className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
+            style={{ clipPath: "circle(150% at 50% 50%)" }}
         >
-            {/* Background Layer - Handles the reveal animation */}
-            <div
-                className="loader-bg absolute inset-0 bg-background z-0"
-                style={{ clipPath: "circle(150% at 50% 50%)" }}
-            >
-                <div className="absolute inset-0 bg-secondary/30" />
+            {/* Parallax Background Layers */}
+            <div className="absolute inset-0">
+                {[...Array(5)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        ref={el => {
+                            if (el) bgLayersRef.current[i] = el;
+                        }}
+                        className="absolute inset-0"
+                        style={{
+                            background: `radial-gradient(circle at ${50 + i * 10}% ${50 - i * 10}%, rgba(244,67,54,${0.1 - i * 0.02}) 0%, transparent 70%)`,
+                            zIndex: i,
+                        }}
+                        initial={{ scale: 1 + i * 0.1, opacity: 0 }}
+                        animate={{
+                            scale: 1 + i * 0.1,
+                            opacity: 0.8 - i * 0.15,
+                            rotate: i * 5,
+                        }}
+                        transition={{
+                            duration: 2,
+                            delay: i * 0.1,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            ease: "easeInOut"
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Main Background */}
+            <div className="absolute inset-0 bg-background z-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+                {/* Animated Particles */}
+                <div className="absolute inset-0 overflow-hidden">
+                    {[...Array(20)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 bg-accent/30 rounded-full"
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`,
+                            }}
+                            animate={{
+                                y: [0, -100, 0],
+                                opacity: [0, 1, 0],
+                                scale: [0, 1.5, 0],
+                            }}
+                            transition={{
+                                duration: 3 + Math.random() * 2,
+                                repeat: Infinity,
+                                delay: Math.random() * 2,
+                                ease: "easeInOut"
+                            }}
+                        />
+                    ))}
+                </div>
 
-                {/* Rotating Ring */}
-                <svg className="w-64 h-64 absolute -rotate-90" viewBox="0 0 100 100">
+                {/* Rotating Ring with Glow */}
+                <motion.svg
+                    className="w-64 h-64 absolute -rotate-90"
+                    viewBox="0 0 100 100"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
                     <circle
                         className="text-white/10"
                         strokeWidth="2"
@@ -130,7 +179,7 @@ export const CinematicLoader = ({ onComplete }: CinematicLoaderProps) => {
                     />
                     <circle
                         ref={ringRef}
-                        className="text-accent drop-shadow-[0_0_10px_rgba(244,67,54,0.5)]"
+                        className="text-accent"
                         strokeWidth="2"
                         stroke="currentColor"
                         fill="transparent"
@@ -140,26 +189,62 @@ export const CinematicLoader = ({ onComplete }: CinematicLoaderProps) => {
                         strokeDasharray={`${2 * Math.PI * 45}`}
                         strokeDashoffset={`${2 * Math.PI * 45}`}
                         strokeLinecap="round"
+                        style={{
+                            filter: "drop-shadow(0 0 10px rgba(244,67,54,0.8))"
+                        }}
                     />
-                </svg>
+                </motion.svg>
 
-                {/* Logo */}
-                <div
+                {/* Logo with Parallax */}
+                <motion.div
                     ref={logoRef}
                     className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.8, ease: "backOut" }}
                 >
-                    <h1 className="text-6xl md:text-8xl font-display font-black tracking-tighter text-primary">
+                    <motion.h1
+                        className="text-6xl md:text-8xl font-display font-black tracking-tighter text-primary"
+                        animate={{
+                            textShadow: [
+                                "0 0 20px rgba(244,67,54,0.3)",
+                                "0 0 40px rgba(244,67,54,0.5)",
+                                "0 0 20px rgba(244,67,54,0.3)",
+                            ]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
                         VIDANA
-                    </h1>
-                </div>
+                    </motion.h1>
+                </motion.div>
 
-                {/* Counter */}
-                <div
+                {/* Counter with Smooth Animation */}
+                <motion.div
                     ref={counterRef}
                     className="absolute top-full mt-12 text-sm font-bold uppercase tracking-widest text-accent"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.6 }}
                 >
-                    {Math.floor(progress)}%
-                </div>
+                    <motion.span
+                        key={Math.floor(progress)}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {Math.floor(progress)}%
+                    </motion.span>
+                </motion.div>
+
+                {/* Loading Text */}
+                <motion.div
+                    className="absolute bottom-20 text-xs uppercase tracking-[0.3em] text-white/40"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0.4, 0.8, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    Loading Experience
+                </motion.div>
             </div>
         </div>
     );

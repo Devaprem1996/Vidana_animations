@@ -6,6 +6,7 @@ import { SplitText } from '@/components/animations/SplitText';
 import { ProjectCard } from '@/components/vidana/ProjectCard';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToNext } from '@/components/animations/ScrollToNext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -369,6 +370,8 @@ const CaseStudies = () => {
                     <BrandStrip />
                 </div>
             </main>
+
+            <ScrollToNext />
         </div>
     );
 };
