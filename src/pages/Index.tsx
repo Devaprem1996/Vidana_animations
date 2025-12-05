@@ -160,6 +160,9 @@ const Index = () => {
               </div>
             </div>
 
+            {/* Spacer to allow scrolling past page end for navigation */}
+            <div className="h-96" aria-hidden="true"></div>
+
             {/* Scroll to next page */}
             <ScrollToNext nextRoute="/about" />
           </footer>

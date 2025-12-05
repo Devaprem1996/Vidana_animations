@@ -301,6 +301,9 @@ const About = () => {
                 </main>
             </div>
 
+            {/* Spacer to allow scrolling past page end for navigation */}
+            <div className="h-96" aria-hidden="true"></div>
+
             <ScrollToNext />
         </div>
     );
