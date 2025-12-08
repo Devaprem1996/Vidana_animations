@@ -21,6 +21,8 @@ import { ImagesGallery } from "@/components/vidana/ImagesGallery";
 // Animations
 import { ScrollToNext } from "@/components/animations/ScrollToNext";
 import { AnimatedLogo } from "@/components/animations/SVGAnimation";
+import { LottieScrollSection } from "@/components/animations/LottieScrollSection";
+import { CarAnimationSection } from "@/components/vidana/CarAnimationSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,6 +72,18 @@ const Index = () => {
             <VidanaOverview />
           </div>
 
+          {/* Typing Animation Section */}
+          <LottieScrollSection
+            animationPath="/assets/Typing Animation.json"
+            clipPathAnimation="circle"
+            scrollDistance={1500}
+            title="Digital Craftsmanship"
+            subtitle="We meticulously craft every line of code and every pixel to create seamless digital experiences."
+            autoplay={true}
+            loop={true}
+            className="my-32"
+          />
+
           {/* Services */}
           <div className="overflow-hidden">
             <VidanaServices />
@@ -79,6 +93,14 @@ const Index = () => {
           <div className="overflow-hidden">
             <VidanaProjects />
           </div>
+
+          {/* Car Animation Section */}
+          <CarAnimationSection
+            animationPath="/assets/car vidana.json"
+            title="Moving Forward"
+            subtitle="Accelerating your digital transformation with speed and precision."
+            className="my-32"
+          />
 
           {/* Stories */}
           <div className="overflow-hidden">

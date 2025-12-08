@@ -73,14 +73,14 @@ export const VidanaProjects = () => {
 
             {/* ScrollStack Container */}
             <ScrollStack
-                itemDistance={150}
+                itemDistance={40}
                 itemScale={0.05}
-                itemStackDistance={40}
-                stackPosition="20%"
+                itemStackDistance={20}
+                stackPosition="10%"
                 scaleEndPosition="10%"
                 baseScale={0.85}
-                rotationAmount={2}
-                blurAmount={7}
+                rotationAmount={1}
+                blurAmount={5}
                 useWindowScroll={true}
             >
                 {PROJECTS.map((project) => (

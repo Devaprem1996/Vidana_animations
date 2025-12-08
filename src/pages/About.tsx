@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { AnomalousMatterHero } from '@/components/ui/anomalous-matter-hero';
 import { WavyBackground } from '@/components/ui/wavy-background';
 import { ScrollToNext } from '@/components/animations/ScrollToNext';
+import { LottieScrollSection } from '@/components/animations/LottieScrollSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -262,6 +263,18 @@ const About = () => {
                             </div>
                         </div>
                     </section>
+
+                    {/* Lottie Animation Section with Scroll Trigger */}
+                    <LottieScrollSection
+                        animationPath="/assets/Office Team Work.json"
+                        clipPathAnimation="hexagon"
+                        scrollDistance={2000}
+                        title="Our Team in Motion"
+                        subtitle="Experience the energy and collaboration that drives our creative process. Watch as our team brings ideas to life through seamless teamwork and innovation."
+                        autoplay={true}
+                        loop={true}
+                        className="my-32"
+                    />
 
                     <BrandStrip />
 

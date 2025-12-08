@@ -8,7 +8,7 @@ const TEAM = [
         id: 1,
         name: "P.Mohana Sankar",
         role: "CEO & Founder",
-        image: "public/images/P. Mohana Sankar.jpeg",
+        image: "images/P. Mohana Sankar.jpeg",
         initial: "P",
         description: "Visionary leader driving the future of AI integration and strategic business transformation.",
         socials: { linkedin: "#", twitter: "#" }
@@ -17,7 +17,7 @@ const TEAM = [
         id: 2,
         name: "Sekaran Ramalingam",
         role: "CAIO",
-        image: "public/images/Sekaran Ramalingam.jpeg",
+        image: "images/Sekaran Ramalingam.jpeg",
         initial: "S",
         description: "Pioneering artificial intelligence architectures that redefine industry standards.",
         socials: { linkedin: "#", github: "#" }
@@ -26,7 +26,7 @@ const TEAM = [
         id: 3,
         name: "Tharini",
         role: "AI Strategy Lead",
-        image: "public/images/person-3.png",
+        image: "images/person-3.png",
         initial: "T",
         description: "Crafting data-driven strategies that bridge the gap between technology and business goals.",
         socials: { linkedin: "#" }
@@ -35,7 +35,7 @@ const TEAM = [
         id: 4,
         name: "Rajasri",
         role: "AI Architect",
-        image: "public/images/person-6.png",
+        image: "images/person-6.png",
         initial: "R",
         description: "Designing robust and scalable AI systems for complex enterprise environments.",
         socials: { linkedin: "#", github: "#" }
@@ -44,7 +44,7 @@ const TEAM = [
         id: 5,
         name: "Devaprem",
         role: "Gen AI Specialist",
-        image: "public/images/Devaprem.png",
+        image: "images/devaprem.png",
         initial: "D",
         description: "Pushing the boundaries of generative AI to create novel and impactful solutions.",
         socials: { linkedin: "#", twitter: "#" }
