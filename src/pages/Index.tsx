@@ -23,6 +23,7 @@ import { ScrollToNext } from "@/components/animations/ScrollToNext";
 import { AnimatedLogo } from "@/components/animations/SVGAnimation";
 import { LottieScrollSection } from "@/components/animations/LottieScrollSection";
 import { CarAnimationSection } from "@/components/vidana/CarAnimationSection";
+import { FullWidthLottieSection } from "@/components/animations/FullWidthLottieSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,6 +100,14 @@ const Index = () => {
             animationPath="/assets/car vidana.json"
             title="Moving Forward"
             subtitle="Accelerating your digital transformation with speed and precision."
+            className="my-32"
+          />
+
+          {/* Network Animation Section */}
+          <FullWidthLottieSection
+            animationPath="/assets/vidana's network.json"
+            title="Global Connectivity"
+            subtitle="Seamlessly connecting ideas, data, and people across the digital universe."
             className="my-32"
           />
 
