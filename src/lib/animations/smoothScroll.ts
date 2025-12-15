@@ -10,6 +10,7 @@ export const initSmoothScroll = (options?: {
     duration?: number;
     easing?: (t: number) => number;
     smoothWheel?: boolean;
+    wheelMultiplier?: number;
 }) => {
     if (lenisInstance) return lenisInstance;
 
@@ -17,7 +18,8 @@ export const initSmoothScroll = (options?: {
         duration: options?.duration || 1.2,
         easing: options?.easing || ((t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))),
         smoothWheel: options?.smoothWheel !== false,
-        touchMultiplier: 2
+        touchMultiplier: 2,
+        wheelMultiplier: options?.wheelMultiplier || 1.5,
     });
 
     function raf(time: number) {

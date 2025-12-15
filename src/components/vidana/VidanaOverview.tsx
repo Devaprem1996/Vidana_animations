@@ -67,7 +67,11 @@ export const VidanaOverview = () => {
     <section
       ref={sectionRef}
       className="relative min-h-screen py-32 px-6 bg-white text-black overflow-hidden"
-      style={{ transformOrigin: 'center center' }}
+      style={{
+        transformOrigin: 'center center',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)'
+      }}
     >
       {/* Background Parallax Layer */}
       <BackgroundParallax className="absolute inset-0 pointer-events-none">

@@ -18,7 +18,7 @@ const PAGE_NAMES: Record<string, string> = {
 
 export const ScrollToNext: React.FC<ScrollToNextProps> = ({
     nextRoute,
-    threshold = 300, // User must scroll 300px past the bottom before navigation
+    threshold = 50, // USER REQUEST: Reduced threshold to 50px (must scroll very deep) to fix "odds" of accidental trigger
 }) => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -63,7 +63,23 @@ export const ScrollToNext: React.FC<ScrollToNextProps> = ({
     const triggerTransition = (nextPage: string) => {
         setIsTransitioning(true);
 
-        // Cinematic transition animation
+        if (nextPage.startsWith('#')) {
+            // Hash navigation (Smooth Scroll)
+            const targetId = nextPage.substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Scroll immediately or with small delay for effect? Immediately for responsiveness.
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Reset state after scroll
+                setTimeout(() => setIsTransitioning(false), 1000);
+            } else {
+                setIsTransitioning(false);
+            }
+            return;
+        }
+
+        // Cinematic transition animation for route change
         const tl = gsap.timeline({
             onComplete: () => {
                 navigate(nextPage);

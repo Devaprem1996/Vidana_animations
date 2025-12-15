@@ -12,6 +12,7 @@ import CaseStudies from "./pages/CaseStudies";
 import { CustomCursor } from "@/components/animations/CustomCursor";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { useSmoothScroll } from "@/lib/animations/smoothScroll";
+import { GlobalGrain } from "@/components/animations/GlobalGrain";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const AppContent = () => {
     <>
       {/* Custom Cursor */}
       <CustomCursor enabled={true} />
+      <GlobalGrain />
 
       <PageTransition type="fade">
         <Routes>

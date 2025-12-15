@@ -7,23 +7,25 @@ import { Nav } from "@/components/vidana/Nav";
 import { Hero } from "@/components/vidana/Hero";
 import { BrandStrip } from "@/components/vidana/BrandStrip";
 import { CinematicLoader } from "@/components/vidana/CinematicLoader";
-import { Plasma } from "@/components/vidana/Plasma";
-import { VidanaOverview } from "@/components/vidana/VidanaOverview";
-import { VidanaServices } from "@/components/vidana/VidanaServices";
-import { VidanaProjects } from "@/components/vidana/VidanaProjects";
-import { VidanaStories } from "@/components/vidana/VidanaStories";
-
-import { VidanaTeamSwiss } from "@/components/vidana/VidanaTeamSwiss";
-import { VidanaTestimonials } from "@/components/vidana/VidanaTestimonials";
 import Squares from "@/components/vidana/Squares";
-import { ImagesGallery } from "@/components/vidana/ImagesGallery";
+import { VidanaCycleAnimation } from "@/components/vidana/VidanaCycleAnimation";
 
 // Animations
-import { ScrollToNext } from "@/components/animations/ScrollToNext";
 import { AnimatedLogo } from "@/components/animations/SVGAnimation";
 import { LottieScrollSection } from "@/components/animations/LottieScrollSection";
 import { CarAnimationSection } from "@/components/vidana/CarAnimationSection";
 import { FullWidthLottieSection } from "@/components/animations/FullWidthLottieSection";
+
+// Lazy load heavy components
+const VidanaOverview = React.lazy(() => import("@/components/vidana/VidanaOverview").then(module => ({ default: module.VidanaOverview })));
+const VidanaServices = React.lazy(() => import("@/components/vidana/VidanaServices").then(module => ({ default: module.VidanaServices })));
+const VidanaProjects = React.lazy(() => import("@/components/vidana/VidanaProjects").then(module => ({ default: module.VidanaProjects })));
+const VidanaStories = React.lazy(() => import("@/components/vidana/VidanaStories").then(module => ({ default: module.VidanaStories })));
+const VidanaExpertise = React.lazy(() => import("@/components/vidana/VidanaExpertise").then(module => ({ default: module.VidanaExpertise })));
+const VidanaTeamSwiss = React.lazy(() => import("@/components/vidana/VidanaTeamSwiss").then(module => ({ default: module.VidanaTeamSwiss })));
+const VidanaTestimonials = React.lazy(() => import("@/components/vidana/VidanaTestimonials").then(module => ({ default: module.VidanaTestimonials })));
+const ImagesGallery = React.lazy(() => import("@/components/vidana/ImagesGallery").then(module => ({ default: module.ImagesGallery })));
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,98 +52,92 @@ const Index = () => {
       {isLoading && <CinematicLoader onComplete={() => setIsLoading(false)} />}
 
       {/* Layered Background Effects */}
-      <div className="fixed inset-0 z-0 opacity-30 pointer-events-none">
-        <Plasma
-          color="#ffffff"
-          speed={4}
-          direction="reverse"
-          scale={1.5}
-          opacity={5}
-          mouseInteractive={false}
-        />
-      </div>
+
 
       <div className="relative z-10">
         <Nav showLogo={showNavLogo} />
 
         <main>
-          {/* Hero */}
+          {/* Hero - Kept eager for LCP */}
           <Hero />
 
-          {/* Overview */}
-          <div className="overflow-hidden">
-            <VidanaOverview />
-          </div>
+          <React.Suspense fallback={<div className="h-screen w-full bg-black" />}>
+            {/* Overview */}
+            <div className="overflow-hidden">
+              <VidanaOverview />
+            </div>
 
-          {/* Typing Animation Section */}
-          <LottieScrollSection
-            animationPath="/assets/Typing Animation.json"
-            clipPathAnimation="circle"
-            scrollDistance={1500}
-            title="Digital Craftsmanship"
-            subtitle="We meticulously craft every line of code and every pixel to create seamless digital experiences."
-            autoplay={true}
-            loop={true}
-            className="my-32"
-          />
+            {/* Typing Animation Section */}
+            <LottieScrollSection
+              animationPath="/assets/Typing Animation.json"
+              clipPathAnimation="circle"
+              scrollDistance={1500}
+              title="Digital Craftsmanship"
+              subtitle="We meticulously craft every line of code and every pixel to create seamless digital experiences."
+              autoplay={true}
+              loop={true}
+              className="my-0"
+            />
 
-          {/* Services */}
-          <div className="overflow-hidden">
-            <VidanaServices />
-          </div>
+            {/* Services */}
+            <div className="overflow-hidden">
+              <VidanaExpertise />
+            </div>
 
-          {/* Projects */}
-          <div className="overflow-hidden">
-            <VidanaProjects />
-          </div>
+            {/* Projects */}
+            <div className="overflow-hidden">
+              <VidanaProjects />
+            </div>
 
-          {/* Car Animation Section */}
-          <CarAnimationSection
-            animationPath="/assets/car vidana.json"
-            title="Moving Forward"
-            subtitle="Accelerating your digital transformation with speed and precision."
-            className="my-32"
-          />
+            {/* Car Animation Section */}
+            <CarAnimationSection
+              animationPath="/assets/car vidana.json"
+              title="Moving Forward"
+              subtitle="Accelerating your digital transformation with speed and precision."
+              className="my-0"
+            />
 
-          {/* Network Animation Section */}
-          <FullWidthLottieSection
-            animationPath="/assets/vidana's network.json"
-            title="Global Connectivity"
-            subtitle="Seamlessly connecting ideas, data, and people across the digital universe."
-            className="my-32"
-          />
+            {/* Network Animation Section */}
+            <FullWidthLottieSection
+              animationPath="/assets/vidana's network.json"
+              title="Global Connectivity"
+              subtitle="Seamlessly connecting ideas, data, and people across the digital universe."
+              className="my-0"
+            />
 
-          {/* Stories */}
-          <div className="overflow-hidden">
-            <VidanaStories />
-          </div>
+            {/* Stories */}
+            <div className="overflow-hidden">
+              <VidanaStories />
+            </div>
 
-          {/* Images Gallery */}
-          <div className="overflow-hidden">
+            {/* Images Gallery */}
             <ImagesGallery />
-          </div>
 
-          {/* Team */}
-          <div className="overflow-hidden">
-            <VidanaTeamSwiss />
-          </div>
+            {/* Team */}
+            <div className="overflow-hidden">
+              <VidanaTeamSwiss />
+            </div>
 
-          {/* Brand strip */}
-          <div className="overflow-hidden">
-            <BrandStrip />
-          </div>
+            {/* Brand strip */}
+            <div className="overflow-hidden">
+              <BrandStrip />
+            </div>
 
-          {/* Testimonials */}
-          <div className="overflow-hidden">
-            <VidanaTestimonials />
-          </div>
+            {/* Testimonials */}
+            <div className="overflow-hidden">
+              <VidanaTestimonials />
+            </div>
+
+            {/* Vidana Cycle Animation */}
+            <VidanaCycleAnimation />
+
+          </React.Suspense>
 
           {/* Footer */}
           <footer
             id="contact"
             className="relative py-24 px-6 bg-transparent text-foreground overflow-hidden"
           >
-
             {/* Squares Background */}
             <div className="absolute inset-0 z-0 opacity-20">
               <Squares
@@ -190,12 +186,6 @@ const Index = () => {
                 <span>All Rights Reserved</span>
               </div>
             </div>
-
-            {/* Spacer to allow scrolling past page end for navigation */}
-            <div className="h-96" aria-hidden="true"></div>
-
-            {/* Scroll to next page */}
-            <ScrollToNext nextRoute="/about" />
           </footer>
         </main>
       </div>

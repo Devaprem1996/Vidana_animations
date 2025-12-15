@@ -9,6 +9,7 @@ import { AnomalousMatterHero } from '@/components/ui/anomalous-matter-hero';
 import { WavyBackground } from '@/components/ui/wavy-background';
 import { ScrollToNext } from '@/components/animations/ScrollToNext';
 import { LottieScrollSection } from '@/components/animations/LottieScrollSection';
+import IntroAnimation from '@/components/ui/scroll-morph-hero';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,74 +58,145 @@ const About = () => {
             });
         }
 
-        // Image reveal
+        // Image Section: Slide from Left -> Center -> Right (Exit)
         if (imageRef.current) {
+            // Entry: Left to Center
             gsap.fromTo(imageRef.current,
                 {
-                    clipPath: "inset(100% 0% 0% 0%)",
-                    scale: 1.2
+                    x: -200,
+                    opacity: 0,
+                    scale: 0.9
                 },
                 {
-                    clipPath: "inset(0% 0% 0% 0%)",
+                    x: 0,
+                    opacity: 1,
                     scale: 1,
                     scrollTrigger: {
                         trigger: imageRef.current,
-                        start: "top bottom-=100",
-                        end: "top center",
+                        start: "top bottom-=50", // Start earlier
+                        end: "center center",
                         scrub: 1,
                     }
                 }
             );
+
+            // Exit: Center to Right (optional interactive feel as scrolling past)
+            gsap.to(imageRef.current, {
+                x: 200,
+                opacity: 0,
+                scale: 0.9,
+                scrollTrigger: {
+                    trigger: imageRef.current,
+                    start: "center top+=100",
+                    end: "bottom top",
+                    scrub: 1,
+                }
+            });
         }
 
-        // Values stagger
+        // Stats Section: Slide from Right -> Center -> Left (Exit)
+        if (statsRef.current) {
+            const stats = statsRef.current.children[0]?.children; // Grid items
+            if (stats) {
+                // Entry: Right to Center
+                gsap.fromTo(stats,
+                    {
+                        x: 200,
+                        opacity: 0
+                    },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        stagger: 0.1,
+                        scrollTrigger: {
+                            trigger: statsRef.current,
+                            start: "top bottom-=50",
+                            end: "center center",
+                            scrub: 1,
+                        }
+                    }
+                );
+
+                // Counters logic (Triggered once separately for the count up effect, not scrubbed)
+                const statElements = statsRef.current.querySelectorAll('.stat-value');
+                statElements.forEach((stat) => {
+                    const target = stat.textContent || '0';
+                    const isPercentage = target.includes('%');
+                    const isPlus = target.includes('+');
+                    const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
+
+                    ScrollTrigger.create({
+                        trigger: stat,
+                        start: "top bottom-=100",
+                        once: true, // Run only once
+                        onEnter: () => {
+                            gsap.to(stat, {
+                                textContent: numericValue,
+                                duration: 2,
+                                ease: "power1.out",
+                                snap: { textContent: 1 },
+                                onUpdate: function () {
+                                    const current = Math.round(parseFloat(stat.textContent || '0'));
+                                    stat.textContent = current + (isPercentage ? '%' : isPlus ? '+' : '');
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        }
+
+        // Values Section: Left / Bottom / Right Entry
         if (valuesRef.current) {
             const cards = valuesRef.current.querySelectorAll('.value-card');
-            gsap.fromTo(cards,
-                {
-                    y: 100,
-                    opacity: 0
-                },
-                {
-                    y: 0,
-                    opacity: 1,
-                    stagger: 0.2,
-                    scrollTrigger: {
-                        trigger: valuesRef.current,
-                        start: "top bottom-=100",
-                        end: "top center",
-                        scrub: 1,
-                    }
-                }
-            );
-        }
 
-        // Stats counter animation
-        if (statsRef.current) {
-            const statElements = statsRef.current.querySelectorAll('.stat-value');
-            statElements.forEach((stat) => {
-                const target = stat.textContent || '0';
-                const isPercentage = target.includes('%');
-                const isPlus = target.includes('+');
-                const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
-
-                ScrollTrigger.create({
-                    trigger: stat,
-                    start: "top bottom-=50",
-                    onEnter: () => {
-                        gsap.to(stat, {
-                            textContent: numericValue,
-                            duration: 2,
-                            ease: "power1.out",
-                            snap: { textContent: 1 },
-                            onUpdate: function () {
-                                const current = Math.round(parseFloat(stat.textContent || '0'));
-                                stat.textContent = current + (isPercentage ? '%' : isPlus ? '+' : '');
-                            }
-                        });
+            // Card 1: From Left
+            if (cards[0]) {
+                gsap.fromTo(cards[0],
+                    { x: -150, opacity: 0, rotation: -5 },
+                    {
+                        x: 0, opacity: 1, rotation: 0,
+                        scrollTrigger: {
+                            trigger: valuesRef.current,
+                            start: "top bottom-=100",
+                            end: "center center",
+                            scrub: 1
+                        }
                     }
-                });
-            });
+                );
+            }
+
+            // Card 2: From Bottom
+            if (cards[1]) {
+                gsap.fromTo(cards[1],
+                    { y: 150, opacity: 0 },
+                    {
+                        y: 0, opacity: 1,
+                        scrollTrigger: {
+                            trigger: valuesRef.current,
+                            start: "top bottom-=100",
+                            end: "center center",
+                            scrub: 1
+                        }
+                    }
+                );
+            }
+
+            // Card 3: From Right
+            if (cards[2]) {
+                gsap.fromTo(cards[2],
+                    { x: 150, opacity: 0, rotation: 5 },
+                    {
+                        x: 0, opacity: 1, rotation: 0,
+                        scrollTrigger: {
+                            trigger: valuesRef.current,
+                            start: "top bottom-=100", // Same timing for sync or adjust for stagger feel
+                            end: "center center",
+                            scrub: 1
+                        }
+                    }
+                );
+            }
         }
 
         return () => {
@@ -205,6 +277,7 @@ const About = () => {
                                     className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ duration: 0.8 }}
+                                    onClick={() => { }} // Dummy handler to satisfy potential linting
                                 />
                                 <div className="absolute bottom-8 left-8 z-20">
                                     <p className="text-2xl font-bold mb-2">Our Team in Action</p>
@@ -213,6 +286,11 @@ const About = () => {
                             </div>
                         </div>
                     </section>
+
+                    {/* Scroll Morph Component */}
+                    <div className="mb-32">
+                        <IntroAnimation />
+                    </div>
 
                     {/* Stats Section */}
                     <section ref={statsRef} className="px-6 mb-32">
